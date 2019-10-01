@@ -1,0 +1,39 @@
+{
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/recommended",
+		"prettier/@typescript-eslint",
+		"plugin:prettier/recommended",
+		"plugin:jsx-a11y/recommended",
+		"standard",
+		"react-app"
+	],
+	"plugins": ["react", "@typescript-eslint", "prettier"],
+	"env": {
+		"browser": true,
+		"jasmine": true,
+		"jest": true
+	},
+	"rules": {
+		"comma-dangle": 2,
+		"no-cond-assign": 2,
+		"no-console": 2,
+		"no-debugger": 2,
+		"no-empty": 2,
+		"semi": "error",
+		"indent": ["error", "tab", { "SwitchCase": 1 }],
+		"linebreak-style": ["error", "unix"],
+		"max-len": [1, 120, 2],
+		"quotes": ["error", "single"],
+		"newline-before-return": "error",
+		"padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }]
+	},
+	"settings": {
+		"react": {
+			"pragma": "React",
+			"version": "detect"
+		}
+	},
+	"parser": "@typescript-eslint/parser"
+}
