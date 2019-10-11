@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { ApolloProvider } from '@apollo/react-hooks'
 import { ConnectedRouter } from 'connected-react-router/immutable'
 
 import store from 'store/index'
@@ -10,15 +11,27 @@ import App from 'containers/app/index'
 
 import './index.less'
 import * as serviceWorker from './serviceWorker'
+import client from 'client'
+import { AppProvider } from 'containers/context/app'
+import { ResponsiveProvider } from 'containers/context/responsive'
+import LinguiProvider from 'containers/context/lingui'
 
 ReactDOM.render(
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<Router>
-				<App />
-			</Router>
-		</ConnectedRouter>
-	</Provider>,
+	<ApolloProvider client={client}>
+		<Provider store={store}>
+			<ConnectedRouter history={history}>
+				<Router>
+					<AppProvider>
+						<LinguiProvider>
+							<ResponsiveProvider>
+								<App />
+							</ResponsiveProvider>
+						</LinguiProvider>
+					</AppProvider>
+				</Router>
+			</ConnectedRouter>
+		</Provider>
+	</ApolloProvider>,
 	document.getElementById('root')
 )
 

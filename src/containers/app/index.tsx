@@ -1,42 +1,51 @@
 import React, { Component } from 'react'
-// import { withRouter } from 'react-router-dom'
-// import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
+import { RootAction } from 'typesafe-actions'
 
 import AppRoutes from './routes'
 import Footer from 'containers/layout/footer'
 import Header from 'containers/layout/header'
-import { ResponsiveProvider } from 'containers/context/responsive'
+import { makeSelectionApp } from 'containers/app/selector'
+import { initializeAsync } from 'containers/app/action'
 
-class App extends Component {
-	// componentWillMount = () => {
-	// 	this.props.initialize();
-	// }
+interface IAppProps {
+	appInitialized: boolean
+	appLoading: boolean
+	appError: string | null
+	initialize: () => void
+}
+interface IAppState {}
+
+class App extends Component<IAppProps, IAppState> {
+	componentWillMount = () => {
+		this.props.initialize()
+	}
 
 	render() {
 		return (
-			<ResponsiveProvider>
-				<div className="App">
-					<Header />
-					<AppRoutes />
-					<Footer />
-				</div>
-			</ResponsiveProvider>
+			<div className="App">
+				<Header />
+				<AppRoutes />
+				<Footer />
+			</div>
 		)
 	}
 }
 
-export default App
-// const mapDispatchToProps = dispatch => {
-// 	return bindActionCreators({
-// 		initialize,
-// 	}, dispatch)
-// }
-// const withConnect = connect(
-// 	null,
-// 	mapDispatchToProps
-// )(App)
-//
-// export default withRouter(
-// 	withConnect
-// )
+const mapStateToProps = makeSelectionApp
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>) => {
+	return bindActionCreators(
+		{
+			initialize: initializeAsync.request
+		},
+		dispatch
+	)
+}
+const withConnect = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(App)
+
+export default withRouter(withConnect)

@@ -2,41 +2,41 @@ import { createSelector } from 'reselect'
 import { RootState } from 'typesafe-actions'
 
 /**
- * Direct selector to the auth state
+ * Direct selector to the app state
  */
-const createAuthDomain = (state: RootState) => state.get('auth')
+const createAppDomain = (state: RootState) => state.get('app')
 
 /**
  * Other specific selectors
  */
 export const selectLoading = createSelector(
-	createAuthDomain,
+	createAppDomain,
 	(iDomain) => iDomain.get('loading')
 )
 export const selectInitializing = createSelector(
-	createAuthDomain,
+	createAppDomain,
 	(iDomain) => iDomain.get('loading')
 )
 export const selectError = createSelector(
-	createAuthDomain,
+	createAppDomain,
 	(iDomain) => iDomain.get('error')
 )
-const makeSelectAuth = () =>
+const makeSelectApp = () =>
 	createSelector(
-		createAuthDomain,
+		createAppDomain,
 		(iSubstate) => iSubstate.toJS()
 	)
-const makeSelectionAuth = () =>
+const makeSelectionApp = () =>
 	createSelector(
 		selectLoading,
 		selectInitializing,
 		selectError,
-		(authLoading, authInitialized, authError) => ({
-			authLoading,
-			authInitialized,
-			authError
+		(appLoading, appInitialized, appError) => ({
+			appLoading,
+			appInitialized,
+			appError
 		})
 	)
 
-export { makeSelectAuth, makeSelectionAuth }
-export default makeSelectionAuth
+export { makeSelectApp, makeSelectionApp }
+export default makeSelectionApp

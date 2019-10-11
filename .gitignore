@@ -11,6 +11,10 @@
 # production
 /build
 
+# libgui
+locale/_build/
+locale/**/*.js
+
 # misc
 .DS_Store
 .env.local
