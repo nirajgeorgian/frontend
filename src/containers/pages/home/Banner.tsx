@@ -1,13 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import QueueAnim from 'rc-queue-anim'
 import TweenOne from 'rc-tween-one'
 import { Button } from 'antd'
 
-export interface IBanner {
+interface _IBanner {
 	isMobile: boolean
 }
-const Banner = (props: IBanner): React.FunctionComponentElement<IBanner> => {
+const Banner: React.FC<_IBanner> = (props) => {
 	return (
 		<div className="banner-wrapper">
 			{props.isMobile && (
@@ -34,10 +33,6 @@ const Banner = (props: IBanner): React.FunctionComponentElement<IBanner> => {
 			</QueueAnim>
 		</div>
 	)
-}
-
-Banner.propTypes = {
-	isMobile: PropTypes.bool.isRequired
 }
 
 export default Banner

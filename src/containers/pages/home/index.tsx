@@ -1,17 +1,17 @@
 import React from 'react'
 
-import Banner from './Banner'
-import Page2 from './Page2'
+import Banner from 'containers/pages/home/banner'
+import Page from 'containers/pages/home/page'
 import ResponsiveContext from 'containers/context/responsive'
 
-class Home extends React.PureComponent {
+class Home extends React.PureComponent<{}, {}> {
 	static contextType = ResponsiveContext
 
 	state = {
 		isMobile: false
 	}
 
-	componentWillMount = () => {
+	componentDidMount = () => {
 		const { isMobile } = this.context
 		if (isMobile) {
 			this.setState({ isMobile: true })
@@ -20,13 +20,14 @@ class Home extends React.PureComponent {
 		}
 	}
 
-	render() {
+	render = () => {
 		const { isMobile } = this.state
+
 		return (
 			<div>
 				<div className="home-wrapper">
 					<Banner isMobile={isMobile} />
-					<Page2 />
+					<Page />
 				</div>
 			</div>
 		)

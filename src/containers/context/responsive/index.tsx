@@ -7,12 +7,11 @@ export interface IResponsive {
 const ResponsiveContext = React.createContext<Partial<IResponsive>>({ isMobile: false })
 const { Consumer, Provider } = ResponsiveContext
 
-interface IProps {}
-interface IState {
+interface _IState {
 	isMobile: boolean
 }
 
-class ResponsiveBase extends Component<IProps, IState> {
+class ResponsiveBase extends Component<{}, _IState> {
 	readonly state = {
 		isMobile: false
 	}
@@ -28,8 +27,9 @@ class ResponsiveBase extends Component<IProps, IState> {
 		})
 	}
 
-	render() {
+	render = () => {
 		const { isMobile } = this.state
+
 		return <Provider value={{ isMobile }}>{this.props.children}</Provider>
 	}
 }

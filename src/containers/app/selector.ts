@@ -1,10 +1,14 @@
 import { createSelector } from 'reselect'
-import { RootState } from 'typesafe-actions'
+import { AppState } from 'containers/app/reducer'
+import { RootState, StateType } from 'typesafe-actions'
+import { Record } from 'immutable'
+import { initialAppRecord } from 'containers/app/state'
 
 /**
  * Direct selector to the app state
  */
-const createAppDomain = (state: RootState) => state.get('app')
+type AppRootState = RootState & Record<StateType<typeof initialAppRecord>>
+const createAppDomain = (iState: AppRootState): AppState => iState.get('app')
 
 /**
  * Other specific selectors

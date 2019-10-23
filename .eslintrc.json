@@ -6,10 +6,11 @@
 		"prettier/@typescript-eslint",
 		"plugin:prettier/recommended",
 		"plugin:jsx-a11y/recommended",
+		"plugin:jsdoc/recommended",
 		"standard",
 		"react-app"
 	],
-	"plugins": ["react", "@typescript-eslint", "prettier"],
+	"plugins": ["react", "@typescript-eslint", "prettier", "jsdoc"],
 	"env": {
 		"browser": true,
 		"jasmine": true,
@@ -21,13 +22,24 @@
 		"no-console": 2,
 		"no-debugger": 2,
 		"no-empty": 2,
-		"semi": "error",
-		"indent": ["error", "tab", { "SwitchCase": 1 }],
-		"linebreak-style": ["error", "unix"],
 		"max-len": [1, 120, 2],
+		"semi": "error",
+		"camelcase": "off",
+		"space-before-function-paren": ["error", "never"],
+		"no-tabs": ["error", { "allowIndentationTabs": true }],
+		"indent": ["error", "tab", { "SwitchCase": 1, "MemberExpression": 1 }],
+		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
 		"newline-before-return": "error",
-		"padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }]
+		"padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
+		"react/prop-types": 0,
+		"react/display-name": 0,
+		"@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
+		"@typescript-eslint/no-empty-interface": ["error", { "allowSingleExtends": false }],
+		"@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "always", "allowUnderscorePrefix": true }],
+		"@typescript-eslint/class-name-casing": 0,
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@typescript-eslint/no-explicit-any": "off"
 	},
 	"settings": {
 		"react": {

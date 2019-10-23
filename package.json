@@ -12,6 +12,7 @@
 		"customize-cra": "^0.8.0",
 		"enquire.js": "^2.1.6",
 		"formik": "^1.5.8",
+		"google-map-react": "^1.1.5",
 		"graphql": "^14.5.8",
 		"history": "^4.10.1",
 		"hoist-non-react-statics": "^3.3.0",
@@ -22,6 +23,7 @@
 		"less-loader": "^5.0.0",
 		"localforage": "^1.7.3",
 		"lodash": "^4.17.15",
+		"moment": "^2.24.0",
 		"normalize.css": "^8.0.1",
 		"prop-types": "^15.7.2",
 		"rc-queue-anim": "^1.8.2",
@@ -31,12 +33,14 @@
 		"react-apollo": "^3.1.1",
 		"react-app-rewired": "^2.1.3",
 		"react-dom": "^16.10.0",
+		"react-google-maps": "^9.4.5",
 		"react-helmet": "^5.2.1",
 		"react-intl": "^3.3.2",
 		"react-loadable": "^5.5.0",
 		"react-redux": "^7.1.1",
 		"react-router-dom": "^5.1.1",
 		"react-scripts": "^3.1.2",
+		"recompose": "^0.30.0",
 		"redux": "^4.0.4",
 		"redux-immutable": "^4.0.0",
 		"redux-logger": "^3.0.6",
@@ -51,21 +55,31 @@
 	"scripts": {
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build",
-		"test": "react-app-rewired test",
+		"test": "react-app-rewired test --env=jsdom --silent",
+		"test:nowatch": "cross-env CI=true react-app-rewired test --env=jsdom --silent",
 		"eject": "react-scripts eject",
-		"lint:fix": "eslint './src/**/*.{ts,tsx}'",
+		"lint": "eslint './src/**/*.{ts,tsx}'",
 		"add-locale": "lingui add-locale",
 		"extract": "lingui extract",
 		"compile": "lingui compile"
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "lint-staged"
+			"pre-commit": "lint-staged",
+			"pre-push": "npm run test:nowatch"
 		}
 	},
 	"lint-staged": {
-		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+		"src/**/*.{ts,tsx,js,jsx,json}": [
+			"eslint --fix",
+			"git add"
+		],
+		"src/**/*.{js,jsx,ts,tsx,json,md}": [
 			"prettier --write",
+			"git add"
+		],
+		"src/**/*.{less, css}": [
+			"stylelint --syntax=less --fix",
 			"git add"
 		]
 	},
@@ -85,19 +99,25 @@
 		"@babel/core": "^7.6.2",
 		"@lingui/cli": "^2.8.3",
 		"@lingui/macro": "^2.8.3",
+		"@testing-library/jest-dom": "^4.1.2",
+		"@testing-library/react": "^9.3.0",
 		"@types/enquire.js": "^2.1.2",
+		"@types/google-map-react": "^1.1.0",
 		"@types/history": "^4.7.3",
 		"@types/jest": "^24.0.18",
 		"@types/lingui__core": "^2.7.0",
 		"@types/lingui__macro": "^2.7.3",
 		"@types/lingui__react": "^2.8.1",
 		"@types/localforage": "0.0.34",
+		"@types/lodash": "^4.14.144",
+		"@types/moment": "^2.13.0",
 		"@types/node": "^12.7.8",
 		"@types/prop-types": "^15.7.3",
 		"@types/react": "^16.9.3",
 		"@types/react-dom": "^16.9.1",
 		"@types/react-redux": "^7.1.4",
 		"@types/react-router-dom": "^5.1.0",
+		"@types/recompose": "^0.30.7",
 		"@types/redux-immutable": "^4.0.1",
 		"@types/redux-logger": "^3.0.7",
 		"@typescript-eslint/eslint-plugin": "^2.3.1",
@@ -107,7 +127,15 @@
 		"eslint-config-prettier": "^6.3.0",
 		"eslint-config-react": "^1.1.7",
 		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-jsdoc": "^15.12.1",
+		"eslint-plugin-node": "^10.0.0",
 		"eslint-plugin-prettier": "^3.1.1",
-		"prettier": "^1.18.2"
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"husky": "^3.0.9",
+		"lint-staged": "^9.4.2",
+		"prettier": "^1.18.2",
+		"stylelint": "^11.1.1",
+		"stylelint-a11y": "^1.2.1"
 	}
 }

@@ -1,11 +1,11 @@
 import { Record } from 'immutable'
 
-interface IAuthState {
+interface _IAuthState {
 	initialized: boolean
 	loading: boolean
 	error: string | null
 }
-const IInitialState = Record<IAuthState>({
+const IInitialState = Record<_IAuthState>({
 	initialized: false,
 	loading: false,
 	error: null

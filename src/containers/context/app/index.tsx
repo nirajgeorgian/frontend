@@ -16,9 +16,10 @@ export interface IWithApolloClienProps {
 	appContext: IAppContext
 }
 
-const TOKEN_NAME = 'circles-token'
+const TOKEN_NAME = 'adsflight-token'
 const hasToken = (): boolean => {
 	const token = localStorage.getItem(TOKEN_NAME)
+
 	return !!token && token.length > 30
 }
 
@@ -36,9 +37,10 @@ const AppProviderBase: SFC<WithApolloClient<IAppProviderProps>> = ({ children, c
 			locale,
 			isAuthenticated,
 			setAuthenticated,
-			setLocale
+			setLocale,
+			client
 		}),
-		[isAuthenticated, setAuthenticated, locale, client]
+		[locale, isAuthenticated, setAuthenticated, setLocale, client]
 	)
 
 	return <Provider value={value}>{children}</Provider>

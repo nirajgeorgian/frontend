@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { makeSelectionAuth } from 'libs/auth/selector'
-import { initializeAsync } from 'libs/auth/action'
+import { initializeAuthAsync } from 'libs/auth/action'
 import { RootAction } from 'typesafe-actions'
 
 const mapStateToProps = makeSelectionAuth
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
 	bindActionCreators(
 		{
-			initialize: initializeAsync.request
+			initialize: initializeAuthAsync.request
 		},
 		dispatch
 	)
@@ -18,11 +18,11 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 class Login extends Component<Props> {
-	componentWillMount = () => {
+	componentDidMount = () => {
 		this.props.initialize()
 	}
 
-	render() {
+	render = () => {
 		return <div>welcome to login page</div>
 	}
 }
