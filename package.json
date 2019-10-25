@@ -122,6 +122,7 @@
 		"@types/redux-logger": "^3.0.7",
 		"@typescript-eslint/eslint-plugin": "^2.3.1",
 		"@typescript-eslint/parser": "^2.3.1",
+		"ava": "^2.4.0",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-plugin-import": "^1.12.2",
 		"eslint-config-prettier": "^6.3.0",

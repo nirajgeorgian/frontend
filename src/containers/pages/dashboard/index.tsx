@@ -79,14 +79,10 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 	}
 
 	calculateLatLng = (input: Array<IDasshboardData>): _ICalculatePrice => {
-		const positions: Array<{ lat: number; lng: number; weight: number }> = []
-		let lat = 0
-		let lng = 0
+		const positions: Array<{ lat: number; lng: number; weight?: number }> = []
 		if (input.length) {
 			input.map((x) => {
-				positions.push({ lat: parseFloat(x.X), lng: parseFloat(x.Y), weight: 8 })
-				lat += parseFloat(x.X)
-				lng += parseFloat(x.Y)
+				positions.push({ lat: x.X, lng: x.Y })
 
 				return true
 			})
@@ -196,7 +192,7 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 		const { CenterX, CenterY } = dashboardMetadata
 			? { CenterX: dashboardMetadata.CenterX, CenterY: dashboardMetadata.CenterY }
 			: { CenterX: 0, CenterY: 0 }
-		const center = { lat: parseFloat(CenterX as string), lng: parseFloat(CenterY as string) }
+		const center = { lat: CenterX, lng: CenterY }
 
 		return (
 			<div>

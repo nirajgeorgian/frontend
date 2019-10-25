@@ -6,30 +6,30 @@ export interface IDasshboardData {
 	PubId: string
 	Source: string
 	IP: string
-	Pixel: string
+	Pixel: boolean
 	Advertiser: string
 	Timestamp: string
 	Campaign: string
 	Size: string
-	X: string
-	Y: string
+	X: number
+	Y: number
 	Id: string
 }
 
 export interface IDashboardMetadata {
 	DisplayClick: string
-	CenterX: string
-	CenterY: string
+	CenterX: number
+	CenterY: number
 	Emails: string
-	Zoom: string
-	AlertEmail: string
-	AlertSMS: string
-	MinimumAcceptableImpressions: string
+	Zoom: number
+	AlertEmail: boolean
+	AlertSMS: boolean
+	MinimumAcceptableImpressions: number
 	Id: string
 	Company: string
-	DisplayImpressions: string
-	Active: string
-	RetargetClick: string
+	DisplayImpressions: boolean
+	Active: boolean
+	RetargetClick: boolean
 	Name: string
 }
 
