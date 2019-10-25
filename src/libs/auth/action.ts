@@ -6,7 +6,7 @@ export interface IAuthSignin {
 	password: string
 }
 
-export const initializeAsync = createAsyncAction(INITIALIZE, INITIALIZE_SUCCESS, INITIALIZE_FAILURE)<
+export const initializeAuthAsync = createAsyncAction(INITIALIZE, INITIALIZE_SUCCESS, INITIALIZE_FAILURE)<
 	undefined,
 	undefined,
 	undefined

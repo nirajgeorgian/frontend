@@ -3,8 +3,8 @@ import { combineReducers } from 'redux-immutable'
 import { createBrowserHistory } from 'history'
 import { connectRouter } from 'connected-react-router/immutable'
 
-import appReducer from 'containers/app/reducer'
 import authReducer from 'libs/auth/reducer'
+import dashboardReducer from 'libs/dashboard/reducer'
 
 /*
  * connectRouter
@@ -18,12 +18,11 @@ import authReducer from 'libs/auth/reducer'
  * Creates the main reducer with the dynamically injected ones
  */
 export const history = createBrowserHistory()
-export interface IInjectedReducers extends Reducer<any, AnyAction> {}
-export const createRootReducer = (injectedReducers?: IInjectedReducers) => {
+export const createRootReducer = (injectedReducers?: Reducer<any, AnyAction>) => {
 	return combineReducers({
 		router: connectRouter(history),
-		app: appReducer,
 		auth: authReducer,
+		dashboard: dashboardReducer,
 		...injectedReducers
 	})
 }

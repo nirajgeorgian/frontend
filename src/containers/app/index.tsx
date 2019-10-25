@@ -1,34 +1,38 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, Dispatch, compose } from 'redux'
 import { connect } from 'react-redux'
 import { RootAction } from 'typesafe-actions'
 
 import AppRoutes from './routes'
-import Footer from 'containers/layout/footer'
-import Header from 'containers/layout/header'
+import AppFooter from 'containers/layout/footer'
+import AppHeader from 'containers/layout/header'
 import { makeSelectionApp } from 'containers/app/selector'
-import { initializeAsync } from 'containers/app/action'
+import { initializeAppAsync } from 'containers/app/action'
+import appEpics from 'containers/app/epic'
+import { epic$ } from 'store/root-epic'
+import injectReducer from 'utils/inject-reducer'
+import appReducer from 'containers/app/reducer'
 
-interface IAppProps {
+interface _IAppProps {
 	appInitialized: boolean
 	appLoading: boolean
 	appError: string | null
 	initialize: () => void
 }
-interface IAppState {}
 
-class App extends Component<IAppProps, IAppState> {
-	componentWillMount = () => {
+class App extends Component<_IAppProps, {}> {
+	componentDidMount = () => {
+		epic$.next(appEpics)
 		this.props.initialize()
 	}
 
-	render() {
+	render = () => {
 		return (
 			<div className="App">
-				<Header />
+				<AppHeader />
 				<AppRoutes />
-				<Footer />
+				<AppFooter />
 			</div>
 		)
 	}
@@ -38,7 +42,7 @@ const mapStateToProps = makeSelectionApp
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>) => {
 	return bindActionCreators(
 		{
-			initialize: initializeAsync.request
+			initialize: initializeAppAsync.request
 		},
 		dispatch
 	)
@@ -46,6 +50,11 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) => {
 const withConnect = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(App)
+)
+const withReducer = injectReducer({ key: 'app', reducer: appReducer })
 
-export default withRouter(withConnect)
+export default compose(
+	withReducer,
+	withConnect,
+	withRouter
+)(App)
