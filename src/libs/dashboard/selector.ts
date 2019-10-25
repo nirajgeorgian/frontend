@@ -27,6 +27,10 @@ export const selectDashboard = createSelector(
 	createDashboardDomain,
 	(iDomain) => iDomain.get('dashboard')
 )
+export const selectDashboardMetadata = createSelector(
+	createDashboardDomain,
+	(iDomain) => iDomain.get('dashboardMetadata')
+)
 
 const makeSelectDashboard = () =>
 	createSelector(
@@ -40,11 +44,13 @@ const makeSelectionDashboard = () =>
 		selectInitializing,
 		selectError,
 		selectDashboard,
-		(dashboardLoading, dashboardInitialized, dashboardError, dashboard) => ({
+		selectDashboardMetadata,
+		(dashboardLoading, dashboardInitialized, dashboardError, dashboard, dashboardMetadata) => ({
 			dashboardLoading,
 			dashboardInitialized,
 			dashboardError,
-			dashboard
+			dashboard,
+			dashboardMetadata
 		})
 	)
 

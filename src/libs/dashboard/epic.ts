@@ -2,7 +2,12 @@ import { from, of } from 'rxjs'
 import { Epic, combineEpics } from 'redux-observable'
 import { catchError, map, switchMap, filter, mapTo } from 'rxjs/operators'
 import { RootAction, RootState, isActionOf } from 'typesafe-actions'
-import { initializeDashboardAsync, fetchDashboardAsync, filterDashboardOnTimestamp } from 'libs/dashboard/action'
+import {
+	initializeDashboardAsync,
+	fetchDashboardAsync,
+	filterDashboardOnTimestamp,
+	fetchDashboardMetadataAsync
+} from 'libs/dashboard/action'
 import DashboardAPi from 'libs/dashboard/api'
 
 export const initializeDashboardEpic$: Epic<RootAction, RootAction, RootState> = (action$) =>
@@ -22,6 +27,17 @@ export const fetchDashboardEpic$: Epic<RootAction, RootAction, RootState> = (act
 		)
 	)
 
+export const fetchDashboardMetadataEpic$: Epic<RootAction, RootAction, RootState> = (action$) =>
+	action$.pipe(
+		filter(isActionOf(fetchDashboardMetadataAsync.request)),
+		switchMap(() =>
+			from(DashboardAPi.getDashboardMetadata()).pipe(
+				map(({ result }) => fetchDashboardMetadataAsync.success(result)),
+				catchError((error) => of(fetchDashboardMetadataAsync.failure(error)))
+			)
+		)
+	)
+
 export const filterDashboardTimestampEpic$: Epic<RootAction, RootAction, RootState> = (action$) =>
 	action$.pipe(
 		filter(isActionOf(filterDashboardOnTimestamp.request)),
@@ -33,4 +49,9 @@ export const filterDashboardTimestampEpic$: Epic<RootAction, RootAction, RootSta
 		)
 	)
 
-export default combineEpics(initializeDashboardEpic$, fetchDashboardEpic$, filterDashboardTimestampEpic$)
+export default combineEpics(
+	initializeDashboardEpic$,
+	fetchDashboardEpic$,
+	filterDashboardTimestampEpic$,
+	fetchDashboardMetadataEpic$
+)

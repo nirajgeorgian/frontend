@@ -6,15 +6,16 @@ import styles from 'components/dashboard/style.module.less'
 import { isRequired } from 'components/ui/validate-field'
 
 const OsSelectOptions: Array<string> = ['all', 'android', 'iOS']
-const SourceSelectOptions: Array<string> = ['all', 'android', 'ios']
-const SizeSelectOptions: Array<string> = ['all', 'android', 'ios']
+const SourceSelectOptions: Array<string> = ['all', 'app', 'web']
+const SizeSelectOptions: Array<string> = ['all', '320x50', '300x250', '728x90', '320x480']
 
 const FilterScetion = () => {
 	return (
-		<Form className={styles.form_container}>
+		<Form className={`${styles.form_container} ant-form-inline`}>
 			<Field
 				component={AntDateRangePicker}
 				name="timestamp"
+				size="default"
 				validate={isRequired}
 				hasFeedback
 				className={styles.inline_form}
@@ -22,6 +23,9 @@ const FilterScetion = () => {
 			<Field
 				component={AntSelect}
 				name="os"
+				size="default"
+				label="os"
+				style={{ width: 200 }}
 				placeholder="Choose an OS"
 				selectOptions={OsSelectOptions}
 				hasFeedback
@@ -30,6 +34,9 @@ const FilterScetion = () => {
 			<Field
 				component={AntSelect}
 				name="source"
+				size="default"
+				label="source"
+				style={{ width: 200 }}
 				placeholder="Choose an Source"
 				selectOptions={SourceSelectOptions}
 				hasFeedback
@@ -38,6 +45,9 @@ const FilterScetion = () => {
 			<Field
 				component={AntSelect}
 				name="size"
+				size="default"
+				label="size"
+				style={{ width: 200 }}
 				placeholder="Choose an Size"
 				selectOptions={SizeSelectOptions}
 				hasFeedback

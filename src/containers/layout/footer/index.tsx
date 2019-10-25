@@ -10,7 +10,7 @@ const AppFooter: React.FC = () => {
 				<Row>
 					<Col lg={6} sm={24} xs={24}>
 						<div className="footer-center">
-							<h2>Ads FLight</h2>
+							<h2>Ads Flight</h2>
 							<div>
 								<a target="_blank" rel="noopener noreferrer" href="https://github.com/ant-design/ant-design-pro">
 									Airport & Travelers

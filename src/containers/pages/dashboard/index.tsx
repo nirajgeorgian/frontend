@@ -1,26 +1,33 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { IDasshboardData } from 'libs/dashboard/state'
+import { IDasshboardData, IDashboardMetadata } from 'libs/dashboard/state'
 import makeSelectionDashboard from 'libs/dashboard/selector'
 import { Dispatch, bindActionCreators, compose } from 'redux'
 import { RootAction } from 'typesafe-actions'
-import { initializeDashboardAsync, fetchDashboardAsync, filterDashboardOnTimestamp } from 'libs/dashboard/action'
+import {
+	initializeDashboardAsync,
+	fetchDashboardAsync,
+	filterDashboardOnTimestamp,
+	fetchDashboardMetadataAsync
+} from 'libs/dashboard/action'
 import { connect } from 'react-redux'
 import styles from 'containers/pages/dashboard/style.module.less'
 import FilterScetion from 'components/dashboard/filter-section'
 import { Formik } from 'formik'
 import MyMapComponent from 'components/dashboard/heat-map'
-import { IGetDashboard, IGetFilterDashboard } from 'libs/dashboard/api'
+import { IGetDashboard, IGetFilterDashboard, IGetDashboardMetadata } from 'libs/dashboard/api'
 import ImpressionTable, { IImpressionTable } from 'components/dashboard/impression-table'
 
 interface _IDashboardProps {
 	dashboardInitialized: boolean
 	dashboardLoading: boolean
 	dashboardError: string | null
+	dashboardMetadata: IDashboardMetadata | null
 	dashboard: Array<IDasshboardData> | null
 	isMarkerShown: boolean
 	initialize: (value: boolean) => void
 	getDashboard: (value: IGetDashboard) => void
+	fetchDashboardMetadata: (value: IGetDashboardMetadata) => void
 	filterDashboard: (value: IGetFilterDashboard) => void
 }
 interface _IDashboardState {
@@ -32,7 +39,6 @@ interface _IDashboardState {
 }
 interface _ICalculatePrice {
 	positions: Array<{ lat: number; lng: number }>
-	center: { lat: number; lng: number }
 }
 interface _IDashboardFilter {
 	timestamp: [moment.Moment, moment.Moment] | null
@@ -45,9 +51,9 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 	state = {
 		timestamp: null,
 		dashboard: this.props.dashboard,
-		os: undefined,
-		source: undefined,
-		size: undefined
+		os: 'all',
+		source: 'all',
+		size: 'all'
 	}
 
 	componentDidMount = () => {
@@ -68,6 +74,7 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 	componentDidUpdate = (prevProps: _IDashboardProps) => {
 		if (!prevProps.dashboardInitialized && this.props.dashboardInitialized) {
 			this.props.getDashboard({ campaign: 'BHV_RETARGETING_US' })
+			this.props.fetchDashboardMetadata({ id: 'BHV', name: 'BHV_RETARGETING_US' })
 		}
 	}
 
@@ -85,30 +92,40 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 			})
 		}
 
-		return { positions, center: { lat: lat / input.length - 1, lng: lng / input.length - 1 } }
+		return { positions }
 	}
 
 	onFilterSubmit = (values: _IDashboardFilter) => {
 		const { timestamp, os, source, size } = values
 
 		// validate os, source and size
-		if (os) {
+		if (os && os !== 'all') {
 			this.setState({ os })
 		}
 
-		if (source) {
+		if (source && source !== 'all') {
 			this.setState({ source })
 		}
 
-		if (size) {
+		if (size && size !== 'all') {
 			this.setState({ size })
 		}
 
 		if (timestamp) {
 			const startdate = timestamp[0].unix()
 			const enddate = timestamp[1].unix()
-			this.setState({ timestamp: [timestamp[0], timestamp[1]] })
-			this.props.filterDashboard({ timestamp: [startdate, enddate], campaign: 'BHV_RETARGETING_US' })
+			const newTimestamp = this.state.timestamp
+			if (newTimestamp) {
+				const startDate = newTimestamp[0] as moment.Moment
+				const endDate = newTimestamp[1] as moment.Moment
+				if (!startDate.isSame(timestamp[0]) && endDate.isSame(timestamp[1])) {
+					this.setState({ timestamp: [timestamp[0], timestamp[1]] })
+					this.props.filterDashboard({ timestamp: [startdate, enddate], campaign: 'BHV_RETARGETING_US' })
+				}
+			} else {
+				this.setState({ timestamp: [timestamp[0], timestamp[1]] })
+				this.props.filterDashboard({ timestamp: [startdate, enddate], campaign: 'BHV_RETARGETING_US' })
+			}
 		}
 	}
 
@@ -129,8 +146,9 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 	}
 
 	render = () => {
-		const { dashboardLoading } = this.props
+		const { dashboardLoading, dashboardMetadata } = this.props
 		const { dashboard } = this.state
+		const { os, size, source, timestamp } = this.state
 		let filteredDashboard: Array<IDasshboardData> = dashboard || []
 
 		if (filteredDashboard.length > 0) {
@@ -138,7 +156,7 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 			let filterObject: any = {}
 
 			// os filter
-			if (os) {
+			if (os && os !== 'all') {
 				const newFilterObject = {
 					OS: os,
 					...filterObject
@@ -147,7 +165,7 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 			}
 
 			// source filter
-			if (source) {
+			if (source && source !== 'all') {
 				const newFilterObject = {
 					Source: source,
 					...filterObject
@@ -156,7 +174,7 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 			}
 
 			// size filter
-			if (size) {
+			if (size && size !== 'all') {
 				const newFilterObject = {
 					Size: size,
 					...filterObject
@@ -172,17 +190,23 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 			})
 		}
 
-		const { positions, center } =
-			filteredDashboard.length > 0
-				? this.calculateLatLng(filteredDashboard)
-				: { positions: null, center: { lat: 59.95, lng: 30.33 } }
+		const { positions } = filteredDashboard.length > 0 ? this.calculateLatLng(filteredDashboard) : { positions: null }
 		const impressionDashboard = filteredDashboard.length > 0 ? this.onFilterImpressionTable(filteredDashboard) : []
+
+		const { CenterX, CenterY } = dashboardMetadata
+			? { CenterX: dashboardMetadata.CenterX, CenterY: dashboardMetadata.CenterY }
+			: { CenterX: 0, CenterY: 0 }
+		const center = { lat: parseFloat(CenterX as string), lng: parseFloat(CenterY as string) }
 
 		return (
 			<div>
 				{!dashboardLoading && <MyMapComponent isMarkerShown={true} data={{ positions, center }} />}
 				<div className={styles.filter}>
-					<Formik initialValues={this.state} onSubmit={this.onFilterSubmit} render={FilterScetion} />
+					<Formik
+						initialValues={{ os, size, timestamp, source }}
+						onSubmit={this.onFilterSubmit}
+						render={FilterScetion}
+					/>
 					<ImpressionTable loading={dashboardLoading} data={impressionDashboard} />
 				</div>
 			</div>
@@ -196,7 +220,8 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) => {
 		{
 			initialize: initializeDashboardAsync.request,
 			getDashboard: fetchDashboardAsync.request,
-			filterDashboard: filterDashboardOnTimestamp.request
+			filterDashboard: filterDashboardOnTimestamp.request,
+			fetchDashboardMetadata: fetchDashboardMetadataAsync.request
 		},
 		dispatch
 	)

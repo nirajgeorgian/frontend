@@ -53,7 +53,6 @@ const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICrea
 			<FormItem
 				className={props.className ? props.className : ''}
 				label={label}
-				hasFeedback={!!((hasFeedback && submitted) || (hasFeedback && touched))}
 				help={submittedError || touchedError ? hasError : false}
 				validateStatus={submittedError || touchedError ? 'error' : 'success'}>
 				<AntComponent

@@ -1,7 +1,12 @@
 import { createReducer } from 'typesafe-actions'
 
 import initialDashboardState from 'libs/dashboard/state'
-import { initializeDashboardAsync, fetchDashboardAsync, filterDashboardOnTimestamp } from 'libs/dashboard/action'
+import {
+	initializeDashboardAsync,
+	fetchDashboardAsync,
+	filterDashboardOnTimestamp,
+	fetchDashboardMetadataAsync
+} from 'libs/dashboard/action'
 
 export const dashboardReducer = createReducer(initialDashboardState)
 	.handleAction([initializeDashboardAsync.request, initializeDashboardAsync.failure], (state) =>
@@ -21,6 +26,13 @@ export const dashboardReducer = createReducer(initialDashboardState)
 	)
 	.handleAction(filterDashboardOnTimestamp.failure, (state, action: any) =>
 		state.set('error', action.payload.message).set('loading', false)
+	)
+	.handleAction(fetchDashboardMetadataAsync.request, (iState) => iState.set('loading', true))
+	.handleAction(fetchDashboardMetadataAsync.success, (iState, action: any) =>
+		iState.set('dashboardMetadata', action.payload).set('loading', false)
+	)
+	.handleAction(fetchDashboardMetadataAsync.failure, (iState, action: any) =>
+		iState.set('error', action.payload.message).set('loading', false)
 	)
 
 export default dashboardReducer
