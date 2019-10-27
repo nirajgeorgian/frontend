@@ -15,6 +15,7 @@ const FilterScetion = () => {
 			<Field
 				component={AntDateRangePicker}
 				name="timestamp"
+				label="timestamp"
 				size="default"
 				validate={isRequired}
 				hasFeedback

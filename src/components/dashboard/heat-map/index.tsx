@@ -6,7 +6,11 @@ import compose from 'recompose/compose'
 
 interface IMyMapComponent {
 	isMarkerShown?: boolean
-	data: { positions: Array<any> | null; center: { lat: number; lng: number } }
+	data: {
+		positions: Array<{ lat: number; lng: number; weight?: number }> | null
+		center: { lat: number; lng: number }
+		zoom: number
+	}
 }
 
 const MyMapComponent = compose<IMyMapComponent, IMyMapComponent>(
@@ -23,10 +27,11 @@ const MyMapComponent = compose<IMyMapComponent, IMyMapComponent>(
 	const { data } = props
 	const { google } = window
 	const heatmapData: Array<any> = []
+
 	if (data) {
 		if (data.positions) {
 			data.positions.map((x) => {
-				heatmapData.push({ location: new google.maps.LatLng(x.lat, x.lng), weight: 5 })
+				heatmapData.push({ location: new google.maps.LatLng(x.lat, x.lng), weight: 10 })
 
 				return null
 			})
@@ -35,7 +40,12 @@ const MyMapComponent = compose<IMyMapComponent, IMyMapComponent>(
 
 	return (
 		<GoogleMap defaultZoom={13} defaultCenter={data.center}>
-			<HeatmapLayer data={heatmapData} options={{ dissipating: true, radius: 20 }} />
+			{/*
+			{props.isMarkerShown && data.positions && data.positions.map((x, i) => (
+				<Marker position={x} key={i} />
+			))}
+			*/}
+			<HeatmapLayer data={heatmapData} options={{ dissipating: true, radius: 20, opacity: 1 }} />
 		</GoogleMap>
 	)
 })

@@ -1,4 +1,4 @@
-import { Record } from 'immutable'
+import { Record, List } from 'immutable'
 
 export interface IDasshboardData {
 	AppstoreUrl: string
@@ -39,6 +39,7 @@ export interface IDashboardState {
 	error: string | null
 	dashboard: Array<IDasshboardData> | null
 	dashboardMetadata: IDashboardMetadata | null
+	runningOperations: List<string>
 }
 
 export const IInitialDashboardState = Record<IDashboardState>({
@@ -46,7 +47,8 @@ export const IInitialDashboardState = Record<IDashboardState>({
 	loading: false,
 	error: null,
 	dashboard: null,
-	dashboardMetadata: null
+	dashboardMetadata: null,
+	runningOperations: List([])
 })
 
 const initialDashboardState = new IInitialDashboardState()

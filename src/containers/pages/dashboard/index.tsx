@@ -24,6 +24,7 @@ interface _IDashboardProps {
 	dashboardError: string | null
 	dashboardMetadata: IDashboardMetadata | null
 	dashboard: Array<IDasshboardData> | null
+	dashboardRunningOperation: Array<string>
 	isMarkerShown: boolean
 	initialize: (value: boolean) => void
 	getDashboard: (value: IGetDashboard) => void
@@ -142,7 +143,7 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 	}
 
 	render = () => {
-		const { dashboardLoading, dashboardMetadata } = this.props
+		const { dashboardLoading, dashboardMetadata, dashboardRunningOperation } = this.props
 		const { dashboard } = this.state
 		const { os, size, source, timestamp } = this.state
 		let filteredDashboard: Array<IDasshboardData> = dashboard || []
@@ -193,10 +194,13 @@ class Dashboard extends Component<_IDashboardProps, _IDashboardState> {
 			? { CenterX: dashboardMetadata.CenterX, CenterY: dashboardMetadata.CenterY }
 			: { CenterX: 0, CenterY: 0 }
 		const center = { lat: CenterX, lng: CenterY }
+		const zoom = dashboardMetadata ? dashboardMetadata.Zoom : 15
 
 		return (
 			<div>
-				{!dashboardLoading && <MyMapComponent isMarkerShown={true} data={{ positions, center }} />}
+				{dashboardLoading && dashboardRunningOperation.length !== 0 ? null : (
+					<MyMapComponent isMarkerShown={true} data={{ positions, center, zoom }} />
+				)}
 				<div className={styles.filter}>
 					<Formik
 						initialValues={{ os, size, timestamp, source }}

@@ -2,6 +2,50 @@
 	"name": "frontend",
 	"version": "0.1.0",
 	"private": true,
+	"scripts": {
+		"start": "react-app-rewired start",
+		"build": "react-app-rewired build",
+		"test": "react-app-rewired test --coverage --silent",
+		"test:watch ": "react-app-rewired test --coverage --silent --watch",
+		"test:nowatch": "cross-env CI=true react-app-rewired test --silent",
+		"eject": "react-scripts eject",
+		"lint": "eslint './src/**/*.{ts,tsx}'",
+		"add-locale": "lingui add-locale",
+		"extract": "lingui extract",
+		"compile": "lingui compile"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"pre-push": "npm run test:nowatch"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{ts,tsx,js,jsx,json}": [
+			"eslint --fix",
+			"git add"
+		],
+		"src/**/*.{js,jsx,ts,tsx,json,md}": [
+			"prettier --write",
+			"git add"
+		],
+		"src/**/*.{less, css}": [
+			"stylelint --syntax=less --fix",
+			"git add"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
 	"dependencies": {
 		"@apollo/react-hooks": "^3.1.1",
 		"@lingui/loader": "^2.8.3",
@@ -51,49 +95,6 @@
 		"typesafe-actions": "^4.4.2",
 		"typescript": "3.6.3",
 		"yup": "^0.27.0"
-	},
-	"scripts": {
-		"start": "react-app-rewired start",
-		"build": "react-app-rewired build",
-		"test": "react-app-rewired test --env=jsdom --silent",
-		"test:nowatch": "cross-env CI=true react-app-rewired test --env=jsdom --silent",
-		"eject": "react-scripts eject",
-		"lint": "eslint './src/**/*.{ts,tsx}'",
-		"add-locale": "lingui add-locale",
-		"extract": "lingui extract",
-		"compile": "lingui compile"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged",
-			"pre-push": "npm run test:nowatch"
-		}
-	},
-	"lint-staged": {
-		"src/**/*.{ts,tsx,js,jsx,json}": [
-			"eslint --fix",
-			"git add"
-		],
-		"src/**/*.{js,jsx,ts,tsx,json,md}": [
-			"prettier --write",
-			"git add"
-		],
-		"src/**/*.{less, css}": [
-			"stylelint --syntax=less --fix",
-			"git add"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
 	},
 	"devDependencies": {
 		"@babel/core": "^7.6.2",
