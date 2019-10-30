@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch, compose } from 'redux'
 import { connect } from 'react-redux'
 import { RootAction } from 'typesafe-actions'
 
-import AppRoutes from './routes'
+import AppRoutes from 'containers/app/routes'
 import AppFooter from 'containers/layout/footer'
 import AppHeader from 'containers/layout/header'
 import { makeSelectionApp } from 'containers/app/selector'

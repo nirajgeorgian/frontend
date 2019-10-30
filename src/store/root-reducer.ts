@@ -4,7 +4,6 @@ import { createBrowserHistory } from 'history'
 import { connectRouter } from 'connected-react-router/immutable'
 
 import authReducer from 'libs/auth/reducer'
-import dashboardReducer from 'libs/dashboard/reducer'
 
 /*
  * connectRouter
@@ -22,7 +21,6 @@ export const createRootReducer = (injectedReducers?: Reducer<any, AnyAction>) =>
 	return combineReducers({
 		router: connectRouter(history),
 		auth: authReducer,
-		dashboard: dashboardReducer,
 		...injectedReducers
 	})
 }

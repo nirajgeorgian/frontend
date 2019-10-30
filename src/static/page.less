@@ -1,0 +1,69 @@
+@import './context.less';
+
+@content3: content3;
+
+.@{content3}-wrapper {
+	min-height: 764px;
+
+	.@{content3} {
+		height: 100%;
+		overflow: hidden;
+
+		& .title-content {
+			text-align: center;
+		}
+
+		&-block-wrapper {
+			position: relative;
+
+			.@{content3}-block {
+				padding: 48px 24px;
+				vertical-align: top;
+				opacity: 1;
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				align-items: center;
+
+				.@{content3}-icon {
+					display: inline-block;
+					width: 50%;
+					margin-left: auto;
+					margin-right: auto;
+					vertical-align: top;
+				}
+
+				.@{content3}-text {
+					display: inline-block;
+				}
+
+				&.clear-both {
+					clear: both;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.@{content3}-wrapper {
+		min-height: 1080px;
+
+		.@{content3} {
+			&-block-wrapper {
+				margin: 20px auto;
+				height: auto;
+
+				.@{content3}-block {
+					.@{content3}-title {
+						font-size: 20px;
+					}
+
+					&.queue-anim-leaving {
+						position: relative !important;
+					}
+				}
+			}
+		}
+	}
+}

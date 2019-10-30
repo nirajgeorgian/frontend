@@ -3,22 +3,22 @@ import Row from 'antd/lib/row'
 import Col from 'antd/lib/col'
 import Layout from 'antd/lib/layout'
 
-const AppFooter: React.FC = () => {
+const AppFooter = () => {
 	return (
 		<Layout.Footer id="footer" className="dark">
 			<div className="footer-wrap">
 				<Row>
 					<Col lg={6} sm={24} xs={24}>
 						<div className="footer-center">
-							<h2>Ads Flight</h2>
+							<h2>Talents</h2>
 							<div>
 								<a target="_blank" rel="noopener noreferrer" href="https://github.com/ant-design/ant-design-pro">
-									Airport & Travelers
+									For Talents
 								</a>
 							</div>
 							<div>
 								<a target="_blank" rel="noopener noreferrer" href="http://ant.design">
-									Advertisement Sign Up
+									Talents Sign Up
 								</a>
 							</div>
 							<div>
@@ -32,9 +32,7 @@ const AppFooter: React.FC = () => {
 						<div className="footer-center">
 							<h2>Company</h2>
 							<div>
-								<a target="_blank" rel="noopener noreferrer" href="http://scaffold.ant.design">
-									Blog
-								</a>
+								<a href="http://scaffold.ant.design">Blog</a>
 							</div>
 							<div>
 								<a target="_blank" rel="noopener noreferrer" href="http://motion.ant.design">
@@ -50,16 +48,12 @@ const AppFooter: React.FC = () => {
 					</Col>
 					<Col lg={6} sm={24} xs={24}>
 						<div className="footer-center">
-							<h2>Contact Us</h2>
+							<h2>Companies</h2>
 							<div>
-								<a target="_blank" rel="noopener noreferrer" href="/demo">
-									airport@ads-flight.com
-								</a>
+								<a href="/">For Companies</a>
 							</div>
 							<div>
-								<a target="_blank" rel="noopener noreferrer" href="/dododuck">
-									Mauritius
-								</a>
+								<a href="/">Companies Sign Up</a>
 							</div>
 							<div>
 								<a target="_blank" rel="noopener noreferrer" href="https://gitter.im/ant-design/ant-design-pro">

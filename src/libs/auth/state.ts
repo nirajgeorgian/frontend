@@ -1,17 +1,22 @@
-import { Record } from 'immutable'
+import { Record, List } from 'immutable'
 
-interface _IAuthState {
+interface IAuthState {
 	initialized: boolean
 	loading: boolean
 	error: string | null
+	token: string
+	runningOperations: List<string>
 }
-const IInitialState = Record<_IAuthState>({
+
+const IInitialAuthState = Record<IAuthState>({
 	initialized: false,
 	loading: false,
-	error: null
+	error: null,
+	token: '',
+	runningOperations: List([])
 })
 
-const initialState = new IInitialState()
+const initialAuthState = new IInitialAuthState()
 
-export default initialState
-export type AuthState = typeof initialState
+export default initialAuthState
+export type AuthState = typeof initialAuthState

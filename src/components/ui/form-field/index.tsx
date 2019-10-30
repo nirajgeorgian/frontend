@@ -1,5 +1,5 @@
 import React from 'react'
-import { AutoComplete, DatePicker, Form, Input, TimePicker, Select, Radio } from 'antd'
+import { AutoComplete, DatePicker, Form, Input, TimePicker, Select, Radio, Icon } from 'antd'
 import { FieldProps } from 'formik/dist/Field'
 import { FormItemProps } from 'antd/lib/form/FormItem'
 import { FormikProps } from 'formik'
@@ -9,6 +9,7 @@ const { Option } = Select
 
 interface _ICreateAntAntFieldProps extends FieldProps, FormItemProps {
 	type: string
+	icon: string
 	radioOptions?: Array<string>
 	selectOptions?: Array<string>
 	submitCount: number
@@ -18,6 +19,7 @@ const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICrea
 	form,
 	hasFeedback,
 	label,
+	icon,
 	selectOptions,
 	radioOptions,
 	submitCount,
@@ -47,24 +49,48 @@ const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICrea
 			</Radio>
 		)
 	}
+	const selectOptionsRender = selectOptions ? selectOptions.map(renderOption) : null
+	const radioOptionsRender = radioOptions ? radioOptions.map(renderRadio) : null
 
 	return (
 		<div className="field-container">
 			<FormItem
 				className={props.className ? props.className : ''}
 				label={label}
+				hasFeedback={!!((hasFeedback && submitted) || (hasFeedback && touched))}
 				help={submittedError || touchedError ? hasError : false}
 				validateStatus={submittedError || touchedError ? 'error' : 'success'}>
+				{selectOptionsRender && (
+					<AntComponent
+						{...field}
+						{...props}
+						type={type}
+						autoComplete="off"
+						onBlur={onBlur}
+						onChange={type ? onInputChange : onChange}>
+						{selectOptionsRender}
+					</AntComponent>
+				)}
+				{radioOptionsRender && (
+					<AntComponent
+						{...field}
+						{...props}
+						type={type}
+						autoComplete="off"
+						onBlur={onBlur}
+						onChange={type ? onInputChange : onChange}>
+						{radioOptionsRender}
+					</AntComponent>
+				)}
 				<AntComponent
+					prefix={icon ? <Icon type={icon} /> : null}
 					{...field}
 					{...props}
 					type={type}
 					autoComplete="off"
 					onBlur={onBlur}
-					onChange={type ? onInputChange : onChange}>
-					{selectOptions ? selectOptions.map(renderOption) : null}
-					{radioOptions ? radioOptions.map(renderRadio) : null}
-				</AntComponent>
+					onChange={type ? onInputChange : onChange}
+				/>
 			</FormItem>
 		</div>
 	)

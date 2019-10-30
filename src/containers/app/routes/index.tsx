@@ -1,17 +1,17 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import SuspenseHomepage from 'containers/pages/homepage/loadable'
-import Home from 'containers/pages/home/index'
+import SuspenseHomepage from 'containers/pages/home/index'
+import Signin from 'containers/pages/auth/signin'
+import Signup from 'containers/pages/auth/signup'
 import Layout from 'antd/lib/layout'
-import Dashboard from 'containers/pages/dashboard'
 
 const AppRoutes: React.FC = () => (
 	<Layout.Content>
 		<Switch>
 			<Route path="/" component={SuspenseHomepage} exact={true} />
-			<Route path="/dashboard" component={Dashboard} exact={true} />
-			<Route path="/home" component={Home} exact={true} />
+			<Route path="/signin" component={Signin} exact={true} />
+			<Route path="/signup" component={Signup} exact={true} />
 		</Switch>
 	</Layout.Content>
 )
