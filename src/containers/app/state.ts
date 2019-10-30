@@ -1,17 +1,18 @@
 import { Record } from 'immutable'
 
-interface IAppState {
+interface _IAppState {
 	initialized: boolean
 	loading: boolean
 	error: string | null
 }
-const IInitialState = Record<IAppState>({
+const IInitialState = Record<_IAppState>({
 	initialized: false,
 	loading: false,
 	error: null
 })
 
-const initialState = new IInitialState()
+export const initialAppState = new IInitialState()
+export const initialAppRecord = Record({ app: initialAppState })
+export type AppState = typeof initialAppState
 
-export default initialState
-export type AppState = typeof initialState
+export default initialAppState

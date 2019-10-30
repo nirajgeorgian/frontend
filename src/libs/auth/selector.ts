@@ -3,6 +3,8 @@ import { RootState } from 'typesafe-actions'
 
 /**
  * Direct selector to the auth state
+ *
+ * @param state
  */
 const createAuthDomain = (state: RootState) => state.get('auth')
 
@@ -15,11 +17,19 @@ export const selectLoading = createSelector(
 )
 export const selectInitializing = createSelector(
 	createAuthDomain,
-	(iDomain) => iDomain.get('loading')
+	(iDomain) => iDomain.get('initialized')
 )
 export const selectError = createSelector(
 	createAuthDomain,
 	(iDomain) => iDomain.get('error')
+)
+export const selectToken = createSelector(
+	createAuthDomain,
+	(iDomain) => iDomain.get('token')
+)
+export const selectRunningOperations = createSelector(
+	createAuthDomain,
+	(iDomain) => iDomain.get('runningOperations').toJS()
 )
 const makeSelectAuth = () =>
 	createSelector(
@@ -31,10 +41,14 @@ const makeSelectionAuth = () =>
 		selectLoading,
 		selectInitializing,
 		selectError,
-		(authLoading, authInitialized, authError) => ({
+		selectToken,
+		selectRunningOperations,
+		(authLoading, authInitialized, authError, authToken, authRunningOperations) => ({
 			authLoading,
 			authInitialized,
-			authError
+			authError,
+			authToken,
+			authRunningOperations
 		})
 	)
 

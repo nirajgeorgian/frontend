@@ -1,8 +1,10 @@
 import React from 'react'
 
-import Banner from './Banner'
-import Page2 from './Page2'
 import ResponsiveContext from 'containers/context/responsive'
+import Banner from 'containers/pages/home/banner'
+import AreasOfImpact from 'containers/pages/home/areas_of_impact'
+import WhyJoinCircles from 'containers/pages/home/why_join_circles'
+import AboutMetadata from 'containers/pages/home/about_metadata'
 
 class Home extends React.PureComponent {
 	static contextType = ResponsiveContext
@@ -11,7 +13,7 @@ class Home extends React.PureComponent {
 		isMobile: false
 	}
 
-	componentWillMount = () => {
+	componentDidMount = () => {
 		const { isMobile } = this.context
 		if (isMobile) {
 			this.setState({ isMobile: true })
@@ -20,13 +22,16 @@ class Home extends React.PureComponent {
 		}
 	}
 
-	render() {
+	render = () => {
 		const { isMobile } = this.state
+
 		return (
 			<div>
 				<div className="home-wrapper">
 					<Banner isMobile={isMobile} />
-					<Page2 />
+					<AboutMetadata />
+					<WhyJoinCircles isMobile={isMobile} />
+					<AreasOfImpact isMobile={isMobile} />
 				</div>
 			</div>
 		)

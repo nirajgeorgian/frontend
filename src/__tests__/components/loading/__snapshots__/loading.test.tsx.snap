@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loading of loading component 1`] = `
+<div>
+  <div>
+    <p>
+      loading ...
+    </p>
+  </div>
+</div>
+`;

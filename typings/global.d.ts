@@ -1,6 +1,7 @@
 declare interface Window {
 	__REDUX_DEVTOOLS_EXTENSION__: any
 	__REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any
+	google: any
 }
 
 declare interface NodeModule {
@@ -10,7 +11,16 @@ declare interface NodeModule {
 declare interface System {
 	import<T = any>(module: string): Promise<T>
 }
+
 declare var System: System
+
+declare module '*.less' {
+	interface IClassNames {
+		[className: string]: string
+	}
+	const classNames: IClassNames
+	export = classNames
+}
 
 // declare const process: any
 // declare const require: any

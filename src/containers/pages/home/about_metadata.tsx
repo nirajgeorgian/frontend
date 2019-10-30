@@ -3,7 +3,7 @@ import { OverPack } from 'rc-scroll-anim'
 import QueueAnim from 'rc-queue-anim'
 import { Button } from 'antd'
 
-function Page2() {
+const AboutMetadata = () => {
 	return (
 		<div className="home-page page2">
 			<div className="home-page-wrapper">
@@ -31,7 +31,6 @@ function Page2() {
 						</div>
 						<p key="p2" className="page-content">
 							需要帮助？请先阅读
-							<a> 开发文档 </a>和<a> 常见问题 </a>， 如果未能解决，可以到 GitHub 上
 							<a href="https://github.com/ant-design/ant-design-pro/issues"> 进行提问 </a>。
 						</p>
 						<div key="button" style={{ marginTop: 88 }}>
@@ -46,4 +45,4 @@ function Page2() {
 	)
 }
 
-export default Page2
+export default AboutMetadata
