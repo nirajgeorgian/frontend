@@ -53,6 +53,7 @@
 		"antd": "^3.23.5",
 		"apollo-boost": "^0.4.4",
 		"connected-react-router": "^6.5.2",
+		"cross-env": "^6.0.3",
 		"customize-cra": "^0.8.0",
 		"enquire.js": "^2.1.6",
 		"formik": "^1.5.8",
