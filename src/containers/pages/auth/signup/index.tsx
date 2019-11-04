@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import { Formik } from 'formik'
 import { Link } from 'react-router-dom'
 import { compose, bindActionCreators, Dispatch } from 'redux'
 import { Typography, Spin, Icon, Divider, Button } from 'antd'
 
-import SignupForm from 'components/auth/signup'
 import { makeSelectionAuth } from 'libs/auth/selector'
 import { RootAction } from 'typesafe-actions'
 import { initializeSigninAsync, IAuthSignin } from 'libs/auth/action'
 import styles from 'containers/pages/auth/style.module.less'
+import CreateAccount from 'containers/forms/auth/user/signup'
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 
@@ -32,10 +31,6 @@ class Signup extends Component<_IAuthSignupProps, _IAuthSigniupState> {
 		password: ''
 	}
 
-	onFormSubmit = () => {
-		return true
-	}
-
 	render = () => {
 		return (
 			<div className={styles.circle_auth}>
@@ -46,7 +41,7 @@ class Signup extends Component<_IAuthSignupProps, _IAuthSigniupState> {
 				<Typography.Title level={2}>Signup Circles</Typography.Title>
 				<div className={styles.circle_auth_form}>
 					<Spin indicator={antIcon} spinning={false}>
-						<Formik initialValues={this.state} onSubmit={this.onFormSubmit} render={SignupForm} />
+						<CreateAccount />
 						<Divider />
 						<Link to="/signin">
 							<Button type="primary" htmlType="submit" className="login-form-button" block>

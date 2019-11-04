@@ -10,6 +10,7 @@ import { makeSelectionAuth } from 'libs/auth/selector'
 import { RootAction } from 'typesafe-actions'
 import SigninForm from 'components/auth/signin'
 import styles from 'containers/pages/auth/style.module.less'
+import CreateAccount from 'containers/forms/auth/signin'
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 
@@ -43,6 +44,7 @@ class Signin extends Component<_IAuthSigninProps, _IAuthSigninstate> {
 				<div className={styles.circle_auth_form}>
 					<Spin indicator={antIcon} spinning={false}>
 						<Formik initialValues={this.state} onSubmit={this.onFormSubmit} render={SigninForm} />
+						<CreateAccount />
 						<Divider />
 						<Link to="/signup">
 							<Button type="primary" htmlType="submit" className="login-form-button" block>

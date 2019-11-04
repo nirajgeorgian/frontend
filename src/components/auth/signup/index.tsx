@@ -11,7 +11,7 @@ const SignupForm = () => {
 		<Form className="form-container">
 			<Field
 				component={AntInput}
-				name="name"
+				name="Description"
 				type="text"
 				label="Full Name"
 				icon="user"
@@ -20,7 +20,7 @@ const SignupForm = () => {
 			/>
 			<Field
 				component={AntInput}
-				name="username"
+				name="Username"
 				type="text"
 				label="Username"
 				icon="user"
@@ -29,7 +29,7 @@ const SignupForm = () => {
 			/>
 			<Field
 				component={AntInput}
-				name="email"
+				name="Email"
 				type="email"
 				label="Email"
 				icon="user"
@@ -38,7 +38,7 @@ const SignupForm = () => {
 			/>
 			<Field
 				component={AntInput}
-				name="password"
+				name="PasswordHash"
 				type="password"
 				label="Password"
 				icon="lock"
