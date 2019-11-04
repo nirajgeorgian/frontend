@@ -86,6 +86,7 @@ const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICrea
 					prefix={icon ? <Icon type={icon} /> : null}
 					{...field}
 					{...props}
+					size="large"
 					type={type}
 					autoComplete="off"
 					onBlur={onBlur}
