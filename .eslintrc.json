@@ -25,11 +25,18 @@
 		"max-len": [1, 120, 2],
 		"semi": "error",
 		"camelcase": "off",
-		"space-before-function-paren": ["error", "never"],
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "always",
+				"named": "always",
+				"asyncArrow": "always"
+			}
+		],
 		"no-tabs": ["error", { "allowIndentationTabs": true }],
 		"indent": ["error", "tab", { "SwitchCase": 1, "MemberExpression": 1 }],
 		"linebreak-style": ["error", "unix"],
-		"quotes": ["error", "single"],
+		"quotes": ["error", "single", { "avoidEscape": true }],
 		"newline-before-return": "error",
 		"padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
 		"react/prop-types": 0,

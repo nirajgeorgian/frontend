@@ -1,38 +1,35 @@
-import React, { Component } from 'react'
-import Enquire from 'enquire.js'
+import React, { createContext, useState, useEffect } from 'react'
 
-export interface IResponsive {
+export interface IResponsiveProvider {
 	isMobile: boolean
 }
-const ResponsiveContext = React.createContext<Partial<IResponsive>>({ isMobile: false })
-const { Consumer, Provider } = ResponsiveContext
+const ResponsiveContext = createContext<Partial<IResponsiveProvider>>({
+	isMobile: false
+})
+const { Provider, Consumer } = ResponsiveContext
 
-interface _IState {
-	isMobile: boolean
-}
+const ResponsiveProvider: React.SFC = ({ children }) => {
+	const [innerWidth, setInnerWidth] = useState(window.innerWidth)
+	const [isMobile, setIsMobile] = useState(!(innerWidth > 767))
 
-class ResponsiveBase extends Component<{}, _IState> {
-	readonly state = {
-		isMobile: false
-	}
-
-	componentDidMount = () => {
-		Enquire.register('only screen and (max-width: 767.99px)', {
-			match: () => {
-				this.setState({ isMobile: true })
-			},
-			unmatch: () => {
-				this.setState({ isMobile: false })
+	useEffect(() => {
+		const handleResize = () => {
+			setInnerWidth(window.innerWidth)
+			if (innerWidth > 767) {
+				setIsMobile(false)
+			} else {
+				setIsMobile(true)
 			}
-		})
-	}
+		}
+		window.addEventListener('resize', handleResize)
 
-	render = () => {
-		const { isMobile } = this.state
+		return () => {
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [innerWidth, isMobile, setIsMobile])
 
-		return <Provider value={{ isMobile }}>{this.props.children}</Provider>
-	}
+	return <Provider value={{ isMobile }}>{children}</Provider>
 }
 
-export { ResponsiveBase as ResponsiveProvider, Consumer as ResponsiveConsumer }
+export { ResponsiveProvider, Consumer as ResponsiveConsumer }
 export default ResponsiveContext
