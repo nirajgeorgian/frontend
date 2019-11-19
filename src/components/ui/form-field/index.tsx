@@ -12,6 +12,7 @@ interface _ICreateAntAntFieldProps extends FieldProps, FormItemProps {
 	icon: string
 	radioOptions?: Array<string>
 	selectOptions?: Array<string>
+	simple?: boolean
 	submitCount: number
 }
 const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICreateAntAntFieldProps> => ({
@@ -22,6 +23,7 @@ const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICrea
 	icon,
 	selectOptions,
 	radioOptions,
+	simple,
 	submitCount,
 	type,
 	...props
@@ -82,16 +84,17 @@ const CreateAntField = (AntComponent: React.ComponentType<any>): React.FC<_ICrea
 						{radioOptionsRender}
 					</AntComponent>
 				)}
-				<AntComponent
-					prefix={icon ? <Icon type={icon} /> : null}
-					{...field}
-					{...props}
-					size="large"
-					type={type}
-					autoComplete="off"
-					onBlur={onBlur}
-					onChange={type ? onInputChange : onChange}
-				/>
+				{simple && (
+					<AntComponent
+						prefix={icon ? <Icon type={icon} /> : null}
+						{...field}
+						{...props}
+						type={type}
+						autoComplete="off"
+						onBlur={onBlur}
+						onChange={type ? onInputChange : onChange}
+					/>
+				)}
 			</FormItem>
 		</div>
 	)
